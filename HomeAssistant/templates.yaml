@@ -1,0 +1,198 @@
+sensor:
+  - name: "Average Indoor Temperature"
+    unique_id: "average_indoor_temperature"
+    unit_of_measurement: "°C"
+    
+    availability: >
+      {% set sensors = [
+        'sensor.sensecap_device1_temperature', 
+        'sensor.sensecap_device2_temperature', 
+        'sensor.sensecap_device3_temperature', 
+        'sensor.arduino_device1_temperature', 
+        'sensor.arduino_device2_temperature',
+        'sensor.arduino_device3_temperature'
+      ] %}
+      {% set available_sensors = sensors 
+        | select('is_state_not', 'unknown') 
+        | select('is_state_not', 'unavailable') 
+        | list %}
+      {{ available_sensors | length > 0 }}
+    
+    state: >
+      {% set sensors = [
+        'sensor.sensecap_device1_temperature', 
+        'sensor.sensecap_device2_temperature', 
+        'sensor.sensecap_device3_temperature', 
+        'sensor.arduino_device1_temperature', 
+        'sensor.arduino_device2_temperature',
+        'sensor.arduino_device3_temperature'
+      ] %}
+      {% set valid_temps = sensors 
+        | map('states') 
+        | reject('in', ['unknown', 'unavailable']) 
+        | map('float', 0) 
+        | list %}
+      
+      {% if valid_temps | length > 0 %}
+        {{ (valid_temps | sum / valid_temps | length) | round(2) }}
+      {% else %}
+        unknown
+      {% endif %}
+
+  - name: "Indoor-Outdoor Temp Diff"  
+    unique_id: "indoor_outdoor_temp_diff"  
+    unit_of_measurement: "°C"  
+
+    availability: >  
+      {{ states('sensor.average_indoor_temperature') not in ['unknown', 'unavailable']  
+      and states('weather.forecast_home') not in ['unknown', 'unavailable'] }}  
+
+    state: >  
+      {% set indoor_avg_temp = states('sensor.average_indoor_temperature') | float | default(None) %}  
+      {% set outdoor_temp = state_attr('weather.forecast_home', 'temperature') | float | default(None) %}  
+      {{ (indoor_avg_temp - outdoor_temp) | round(2) }}  
+
+  # for DB
+
+  - unique_id: akademill_scap_te_1
+    name: "Akademill Sensecap Temperature 1"
+    state: "{{ states('sensor.sensecap_device1_temperature') | float | default(None)}}"  
+    # state:
+    #     {% set sensor_id = 'sensor.sensecap_device3_temperature' %}
+    #     {% set values = (state_attr('sensor.akademill_scap_te_3', 'last_5_values') or []) + [states(sensor_id) | float(none)] %}
+    #     {% set values = values[-5:] %}
+    #     {% if values | length == 5 %}
+    #         {{ values | select('is_number') | list | average }}
+    #     {% else %}
+    #         23.99
+    #     {% endif %}
+    attributes:
+      unit: "°C"
+      source: "Akademill"
+      id: "akademill_scap_te_1"
+      measurement: "Temperature"
+    # hidden : true
+    
+
+  - unique_id: akademill_scap_te_2
+    name: "Akademill Sensecap Temperature 2"
+    state: "{{ states('sensor.sensecap_device2_temperature') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "°C"
+      source: "Akademill"
+      id: "akademill_scap_te_2"
+      measurement: "Temperature"
+  
+  - unique_id: akademill_scap_te_3
+    name: "Akademill Sensecap Temperature 3"
+    state: "{{ states('sensor.sensecap_device3_temperature') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "°C"
+      source: "Akademill"
+      id: "akademill_scap_te_3"
+      measurement: "Temperature"
+      
+  - unique_id: akademill_ard_te_1
+    name: "Akademill Arduino Temperature 1"
+    state: "{{ states('sensor.arduino_device1_temperature') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "°C"
+      source: "Akademill"
+      id: "akademill_ard_te_1"
+      measurement: "Temperature"
+
+  - unique_id: akademill_ard_te_2
+    name: "Akademill Arduino Temperature 2"
+    state: "{{ states('sensor.arduino_device2_temperature') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "°C"
+      source: "Akademill"
+      id: "akademill_ard_te_2"
+      measurement: "Temperature"
+    
+  - unique_id: vaasa_weather_te_1
+    name: "Vaasa Weather Temperature 1"
+    state: "{{ state_attr('weather.forecast_home', 'temperature') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "°C"
+      source: "Vaasa"
+      id: "vaasa_weather_te_1"
+      measurement: "Temperature"
+  
+  - unique_id: vaasa_weather_ws_1
+    name: "Vaasa Weather WindSpeed 1"
+    state: "{{ state_attr('weather.forecast_home', 'wind_speed') | float | default(None)}}" 
+    attributes:
+      unit: "km/h"
+      source: "Vaasa"
+      id: "vaasa_weather_ws_1"
+      measurement: "Wind Speed"
+  
+  - unique_id: akademill_avg_te_1
+    name: "Akademill Average Temperature 1"
+    state: "{{ states('sensor.average_indoor_temperature') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "°C"
+      source: "Akademill"
+      id: "akademill_avg_te_1"
+      measurement: "Tempe Avg"
+  
+  - unique_id: akademill_diff_te_1
+    name: "Akademill inddor-outdoor diff temp 1"
+    state: "{{ states('sensor.indoor_outdoor_temp_diff') | float | default(None)}}"   
+    # hidden : true
+    attributes:
+      unit: "°C"
+      source: "Akademill"
+      id: "akademill_diff_te_1" 
+      measurement: "Temp Diff"
+  
+  - unique_id: akademill_scap_co2_1
+    name: "Akademill Sensecap CO2 1"
+    state: "{{ states('sensor.sensecap_device1_co2') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "ppm"
+      source: "Akademill"
+      id: "akademill_scap_co2_1"
+      measurement: "CO2"
+
+  - unique_id: akademill_scap_co2_2
+    name: "Akademill Sensecap CO2 2"
+    state: "{{ states('sensor.sensecap_device2_co2') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "ppm"
+      source: "Akademill"
+      id: "akademill_scap_co2_2"
+      measurement: "CO2"
+    
+  - unique_id: akademill_scap_co2_3
+    name: "Akademill Sensecap CO2 3"
+    state: "{{ states('sensor.sensecap_device3_co2') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "ppm"
+      source: "Akademill"
+      id: "akademill_scap_co2_3"
+      measurement: "CO2"
+      
+  - unique_id: akademill_scap_co2_4
+    name: "Akademill Sensecap CO2 4"
+    state: "{{ states('sensor.sensecap_device4_co2') | float | default(None)}}"  
+    # hidden : true
+    attributes:
+      unit: "ppm"
+      source: "Akademill"
+      id: "akademill_scap_co2_4"
+      measurement: "CO2"
+      
+
+      
+  

@@ -1,0 +1,22 @@
+- alias: "Time Broadcast for the mqtt devices"
+  trigger:
+    platform: time_pattern
+    minutes: "/1"  # Update every minute (adjust as needed)
+  action:
+    - service: mqtt.publish
+      data:
+        topic: "sensecap/time"
+        payload: "{{ now().strftime('%H:%M') }}"
+        retain: true
+
+- alias: "MQTT Reboot ESP32 every 4 hours"
+  trigger:
+    platform: time_pattern
+    hours: "/4"  # Every 4th hour (00, 04, 08, 12, 16, 20)
+    minutes: 59  # At the 59th minute of the hour
+  action:
+    - service: mqtt.publish
+      data:
+        topic: "sensecap/reboot"
+        payload: "reboot"
+        retain: false

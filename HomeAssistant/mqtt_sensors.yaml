@@ -1,0 +1,99 @@
+# MQTT sensors
+- unique_id: sensecap_device1_temperature
+  name: "Sensecap Device1 Temperature"
+  state_topic: "sensecap/device1/sensor"
+  suggested_display_precision: 1
+  unit_of_measurement: "°C"
+  value_template: "{{ value_json.temp }}"
+
+- unique_id: sensecap_device1_humidity
+  name: "Sensecap Device1 Humidity"
+  state_topic: "sensecap/device1/sensor"
+  unit_of_measurement: "%"
+  value_template: "{{ value_json.humidity }}"
+
+- unique_id: sensecap_device1_co2
+  name: "Sensecap Device1 CO2"
+  state_topic: "sensecap/device1/sensor"
+  unit_of_measurement: "ppm"
+  value_template: "{{ value_json.co2 }}"
+
+- unique_id: sensecap_device1_tvoc
+  name: "Sensecap Device1 tVOC"
+  state_topic: "sensecap/device1/sensor"
+  unit_of_measurement: ""
+  value_template: "{{ value_json.tvoc }}"
+
+- unique_id: sensecap_device2_temperature
+  name: "Sensecap Device2 Temperature"
+  state_topic: "sensecap/device2/sensor"
+  suggested_display_precision: 1
+  unit_of_measurement: "°C"
+  value_template: "{{ value_json.temp }}"
+
+- unique_id: sensecap_device2_humidity
+  name: "Sensecap Device2 Humidity"
+  state_topic: "sensecap/device2/sensor"
+  unit_of_measurement: "%"
+  value_template: "{{ value_json.humidity }}"
+
+- unique_id: sensecap_device2_co2
+  name: "Sensecap Device2 CO2"
+  state_topic: "sensecap/device2/sensor"
+  unit_of_measurement: "ppm"
+  value_template: "{{ value_json.co2 }}"
+
+- unique_id: sensecap_device2_tvoc
+  name: "Sensecap Device2 tVOC"
+  state_topic: "sensecap/device2/sensor"
+  unit_of_measurement: ""
+  value_template: "{{ value_json.tvoc }}"
+
+- unique_id: sensecap_device3_temperature
+  name: "Sensecap Device3 Temperature"
+  state_topic: "sensecap/device3/sensor"
+  suggested_display_precision: 1
+  unit_of_measurement: "°C"
+  value_template: "{{ value_json.temp }}"
+
+- unique_id: sensecap_device3_humidity
+  name: "Sensecap Device3 Humidity"
+  state_topic: "sensecap/device3/sensor"
+  unit_of_measurement: "%"
+  value_template: "{{ value_json.humidity }}"
+
+- unique_id: sensecap_device3_co2
+  name: "Sensecap Device3 CO2"
+  state_topic: "sensecap/device3/sensor"
+  unit_of_measurement: "ppm"
+  value_template: "{{ value_json.co2 }}"
+
+- unique_id: sensecap_device3_tvoc
+  name: "Sensecap Device3 tVOC"
+  state_topic: "sensecap/device3/sensor"
+  unit_of_measurement: ""
+  value_template: "{{ value_json.tvoc }}"
+  
+- unique_id: arduino_device1_temperature
+  name: "Arduino Device1 Temperature"
+  state_topic: "arduino/device1/temp"  
+  unit_of_measurement: "°C"
+  value_template: "{{ value | float }}"
+  
+- unique_id: arduino_device2_temperature
+  name: "Arduino Device2 Temperature"
+  state_topic: "arduino/device2/temp"  
+  unit_of_measurement: "°C"
+  value_template: "{{ value | float }}"
+ 
+- unique_id: arduino_device3_temperature
+  name: "Arduino Device3 Temperature"
+  state_topic: "arduino/device3/temp"  
+  unit_of_measurement: "°C"
+  value_template: "{{ value | float }}"
+  
+- unique_id: sensecap_device4_co2
+  name: "Sensecap Device4 CO2"
+  state_topic: "sensecap/device4/sensor"
+  unit_of_measurement: "ppm"
+  value_template: "{{ value_json.co2 }}"

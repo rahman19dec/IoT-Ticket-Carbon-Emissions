@@ -1,0 +1,51 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+# Python scripts
+python_script:
+
+# Mqtt configurations
+mqtt: !include mqtt.yaml
+
+# Templates
+template: !include templates.yaml
+
+influxdb:
+  host: "10.241.1.3"
+  port: 8086
+  database: "asset_data"  # Single database for all assets
+  username: *******
+  password: *******
+  max_retries: 3
+  include:
+    entities:
+      - sensor.akademill_inddor_outdoor_diff_temp_1
+      - sensor.akademill_sensecap_temperature_1
+      - sensor.akademill_sensecap_temperature_2
+      - sensor.akademill_sensecap_temperature_3
+      - sensor.akademill_arduino_temperature_1
+      - sensor.akademill_arduino_temperature_2
+      - sensor.akademill_sensecap_co2_1
+      - sensor.akademill_sensecap_co2_2
+      - sensor.akademill_sensecap_co2_3
+      - sensor.akademill_sensecap_co2_4
+  tags_attributes:
+    - source
+    - id
+    - unit
+  measurement_attr: domain__device_class
+  
+  
+#   - sensor.vaasa_weather_temperature_1
+#   - sensor.vaasa_weather_windspeed_1
+#   - sensor.akademill_average_temperature_1
+  

@@ -1,0 +1,6 @@
+entities:
+  - sensor.average_indoor_temperature
+  - sensor.indoor_outdoor_temp_diff
+  - sensor.sensecap_device1_co2
+  - sensor.arduino_device_1
+  - weather.forecast_home
