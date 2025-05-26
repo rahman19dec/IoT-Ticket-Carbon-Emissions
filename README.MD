@@ -1,1 +1,5 @@
+This repository contains 5 directories related to collecting and processing data.
 
+Directories:
+
+./Microcontrollers/ – Scripts and tools to collect sensor data
